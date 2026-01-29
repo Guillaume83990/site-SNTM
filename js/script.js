@@ -663,110 +663,84 @@ function initScrollAnimations() {
 }
 
 // ===================================
-// STAT COUNTERS
+// STAT COUNTERS (DESKTOP + MOBILE SAFE)
 // ===================================
 function initStatCounters() {
     const statNumbers = document.querySelectorAll('.stat-number');
-    console.log('Stat numbers found:', statNumbers.length);
+    const container = document.querySelector('.about-stats-inline');
 
-    if (statNumbers.length === 0) {
-        console.error('No stat numbers found!');
-        return;
-    }
+    if (!statNumbers.length || !container) return;
 
     let hasAnimated = false;
 
-    // Fonction pour vérifier si un élément est visible
-    function isElementInViewport(el) {
-        const rect = el.getBoundingClientRect();
-        return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-    }
-
-    // Fonction pour démarrer l'animation
     function animateCounters() {
         if (hasAnimated) return;
         hasAnimated = true;
 
-        console.log('Starting counter animation...');
-
-        statNumbers.forEach((stat, index) => {
-            const target = parseInt(stat.getAttribute('data-target'));
-            console.log(`Counter ${index}: target = ${target}`);
-
-            if (isNaN(target)) {
-                console.error(`Invalid target for counter ${index}`);
-                return;
-            }
+        statNumbers.forEach(stat => {
+            const target = parseInt(stat.dataset.target, 10);
+            if (isNaN(target)) return;
 
             const duration = 2000;
-            const startTime = performance.now();
+            const start = performance.now();
 
-            function updateCounter(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-
-                // Easing function
-                const easeOutCubic = 1 - Math.pow(1 - progress, 3);
-                const current = Math.floor(easeOutCubic * target);
-
-                stat.textContent = current;
+            function update(time) {
+                const progress = Math.min((time - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                stat.textContent = Math.floor(eased * target);
 
                 if (progress < 1) {
-                    requestAnimationFrame(updateCounter);
+                    requestAnimationFrame(update);
                 } else {
                     stat.textContent = target;
-                    console.log(`Counter ${index} finished at ${target}`);
                 }
             }
 
-            requestAnimationFrame(updateCounter);
+            requestAnimationFrame(update);
         });
     }
 
-    // Observer pour détecter quand la section devient visible
-    const observerOptions = {
-        threshold: 0.2,
-        rootMargin: '0px 0px -100px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            console.log('Observer triggered:', entry.isIntersecting, 'hasAnimated:', hasAnimated);
-            if (entry.isIntersecting && !hasAnimated) {
-                animateCounters();
+    // IntersectionObserver (desktop + mobile récents)
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounters();
+                        observer.disconnect();
+                    }
+                });
+            },
+            {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
             }
-        });
-    }, observerOptions);
+        );
 
-    // Observer le conteneur
-    const statsContainer = document.querySelector('.about-stats-inline');
-    if (statsContainer) {
-        console.log('Stats container found, observing...');
-        observer.observe(statsContainer);
-    } else {
-        console.error('Stats container not found!');
+        observer.observe(container);
     }
 
-    // Fallback: vérifier au scroll
-    let scrollTimeout;
-    window.addEventListener('scroll', () => {
-        if (hasAnimated) return;
+    // Fallback scroll (Safari iOS / vieux mobiles)
+    function isElementInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
+    }
 
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-            const statsContainer = document.querySelector('.about-stats-inline');
-            if (statsContainer && isElementInViewport(statsContainer)) {
-                console.log('Stats container visible via scroll fallback');
+    window.addEventListener(
+        'scroll',
+        () => {
+            if (!hasAnimated && isElementInViewport(container)) {
                 animateCounters();
             }
-        }, 100);
-    }, { passive: true });
+        },
+        { passive: true }
+    );
 }
+
+// INIT
+document.addEventListener('DOMContentLoaded', () => {
+    initStatCounters();
+});
 
 // ===================================
 // CONTACT FORM
