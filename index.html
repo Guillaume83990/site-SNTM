@@ -29,7 +29,6 @@
 
     <link rel="stylesheet" href="css/style.css">
 
-
     <!-- Schema.org pour le SEO local -->
     <script type="application/ld+json">
     {
@@ -96,6 +95,10 @@
                 <li><a href="#services" class="nav-link">Services</a></li>
                 <li><a href="#apropos" class="nav-link">À Propos</a></li>
                 <li><a href="#zone" class="nav-link">Zone d'Intervention</a></li>
+                <li><a href="#temoignages" class="nav-link nav-link-special">
+                        Avis Clients
+                        <span class="rating-badge">⭐ 5.0</span>
+                    </a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
         </div>
@@ -109,10 +112,10 @@
                     class="hero-bg-image">
             </div>
             <div class="hero-slide">
-                <img src="assets/images/nettoyage 5.jpg" alt="Entretien de locaux" class="hero-bg-image">
+                <img src="assets/images/produits nettoyage.jpg" alt="produits nettoyage" class="hero-bg-image">
             </div>
             <div class="hero-slide">
-                <img src="assets/images/nettoyage 4.jpg" alt="Nettoyage de vitrines" class="hero-bg-image">
+                <img src="assets/images/nettoyage locaux pro.jpg" alt="Nettoyage de locaux" class="hero-bg-image">
             </div>
         </div>
         <div class="hero-overlay"></div>
@@ -152,8 +155,8 @@
             <div class="services-grid">
                 <article class="service-card" data-tilt>
                     <div class="service-image-container">
-                        <img src="assets/images/nettoyage locaux professionnels.jpg"
-                            alt="Nettoyage de locaux professionnels" class="service-image">
+                        <img src="assets/images/locaux pro nettoyage 2.jpg" alt="Nettoyage de locaux professionnels"
+                            class="service-image">
                         <div class="service-overlay"></div>
                     </div>
                     <div class="service-content">
@@ -202,7 +205,8 @@
 
                 <article class="service-card" data-tilt>
                     <div class="service-image-container">
-                        <img src="assets/images/nettoyage classe.png" alt="Nettoyage d'écoles" class="service-image">
+                        <img src="assets/images/produits nettoyage.jpg" alt="Nettoyage d'écoles, produits netooyage"
+                            class="service-image">
                         <div class="service-overlay"></div>
                     </div>
                     <div class="service-content">
@@ -266,7 +270,8 @@
                         </div>
                     </div>
                     <div class="about-image-secondary">
-                        <img src="assets/images/produits nettoyage.jpg" alt="Notre travail" class="about-img-secondary">
+                        <img src="assets/images/image st tropez.jpg" alt="clocher st tropez"
+                            class="about-img-secondary">
                     </div>
                 </div>
 
@@ -327,42 +332,74 @@
         </div>
     </section>
 
-    <!-- Zone d'Intervention Professionnelle -->
+    <!-- Zone d'Intervention -->
     <section id="zone" class="zone">
+        <div class="zone-background">
+            <img src="assets/images/image village st tropez.jpg" alt="Saint-Tropez" class="zone-bg-image">
+            <div class="zone-bg-overlay"></div>
+        </div>
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Zone d'Intervention Professionnelle</h2>
-                <p class="section-subtitle">Nous intervenons sur tout le Golfe de Saint-Tropez et ses environs</p>
+                <h2 class="section-title">Zone d'Intervention</h2>
+                <p class="section-subtitle">Nous intervenons sur Saint-Tropez et tout le Golfe</p>
             </div>
 
-            <div class="zone-content">
-                <!-- Carte Google Map -->
-                <div class="zone-map">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2888.921724659586!2d6.625759215496978!3d43.268740579137095!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12cd0eaa8d45f6a1%3A0x2c85d775c30a93f4!2sSaint-Tropez%2C%20France!5e0!3m2!1sen!2sus!4v1706412345678!5m2!1sen!2sus"
-                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+            <div class="cities-grid">
+                <div class="city-card" data-city="saint-tropez">
+                    <div class="city-icon">📍</div>
+                    <h3 class="city-name">Saint-Tropez</h3>
+                    <p class="city-description">Ville principale</p>
                 </div>
 
-                <!-- Liste des zones -->
-                <div class="zone-list">
-                    <h3>Villes et Communes Desservies</h3>
-                    <ul class="cities-list">
-                        <li><span class="city-marker">📍</span> Saint-Tropez</li>
-                        <li><span class="city-marker">📍</span> Ramatuelle</li>
-                        <li><span class="city-marker">📍</span> Gassin</li>
-                        <li><span class="city-marker">📍</span> Grimaud</li>
-                        <li><span class="city-marker">📍</span> Sainte-Maxime</li>
-                        <li><span class="city-marker">📍</span> Port Grimaud</li>
-                        <li><span class="city-marker">📍</span> La Croix-Valmer</li>
-                        <li><span class="city-marker">📍</span> Cavalaire-sur-Mer</li>
-                    </ul>
-                    <p class="zone-note">
-                        <strong>Autre localisation ?</strong> Nous étudions toutes demandes professionnelles.
-                        Contactez-nous.
-                    </p>
+                <div class="city-card" data-city="ramatuelle">
+                    <div class="city-icon">📍</div>
+                    <h3 class="city-name">Ramatuelle</h3>
+                    <p class="city-description">Villages environnants</p>
                 </div>
+
+                <div class="city-card" data-city="gassin">
+                    <div class="city-icon">📍</div>
+                    <h3 class="city-name">Gassin</h3>
+                    <p class="city-description">Villages environnants</p>
+                </div>
+
+                <div class="city-card" data-city="grimaud">
+                    <div class="city-icon">📍</div>
+                    <h3 class="city-name">Grimaud</h3>
+                    <p class="city-description">Port Grimaud inclus</p>
+                </div>
+
+                <div class="city-card" data-city="sainte-maxime">
+                    <div class="city-icon">📍</div>
+                    <h3 class="city-name">Sainte-Maxime</h3>
+                    <p class="city-description">Golfe de Saint-Tropez</p>
+                </div>
+
+                <div class="city-card" data-city="cavalaire">
+                    <div class="city-icon">📍</div>
+                    <h3 class="city-name">Cavalaire-sur-Mer</h3>
+                    <p class="city-description">Littoral</p>
+                </div>
+
+                <div class="city-card" data-city="la-croix">
+                    <div class="city-icon">📍</div>
+                    <h3 class="city-name">La Croix-Valmer</h3>
+                    <p class="city-description">Côte des Maures</p>
+                </div>
+
+                <div class="city-card" data-city="cogolin">
+                    <div class="city-icon">📍</div>
+                    <h3 class="city-name">Cogolin</h3>
+                    <p class="city-description">Arrière-pays</p>
+                </div>
+            </div>
+
+            <div class="zone-cta">
+                <p class="zone-note-text">
+                    <strong>Votre ville n'est pas dans la liste ?</strong><br>
+                    Contactez-nous pour vérifier nos possibilités d'intervention dans votre secteur.
+                </p>
+                <a href="#contact" class="btn btn-primary">Demander un devis</a>
             </div>
         </div>
     </section>
@@ -377,7 +414,7 @@
 
             <div class="gallery-grid">
                 <div class="gallery-item" data-category="locaux">
-                    <img src="assets/images/nettoyage 2.jpg" alt="Nettoyage de bureaux" class="gallery-image">
+                    <img src="assets/images/nettoyage bureaux 1.jpg" alt="Nettoyage de bureaux" class="gallery-image">
                     <div class="gallery-overlay">
                         <div class="gallery-content">
                             <h4>Bureaux Professionnels</h4>
@@ -397,7 +434,8 @@
                 </div>
 
                 <div class="gallery-item" data-category="vitrine">
-                    <img src="assets/images/nettoyage vitres.jpg" alt="Nettoyage de vitrines" class="gallery-image">
+                    <img src="assets/images/nettoyage vitres homme.jpg" alt="Nettoyage de vitrines"
+                        class="gallery-image">
                     <div class="gallery-overlay">
                         <div class="gallery-content">
                             <h4>Vitrines</h4>
@@ -407,7 +445,7 @@
                 </div>
 
                 <div class="gallery-item" data-category="locaux">
-                    <img src="assets/images/nettoyage classe.png" alt="Nettoyage d'école" class="gallery-image">
+                    <img src="assets/images/nettoyage école 1.jpg" alt="Nettoyage d'école" class="gallery-image">
                     <div class="gallery-overlay">
                         <div class="gallery-content">
                             <h4>Établissement Scolaire</h4>
@@ -417,7 +455,8 @@
                 </div>
 
                 <div class="gallery-item" data-category="commerce">
-                    <img src="assets/images/nettoyage 4.jpg" alt="Nettoyage après travaux" class="gallery-image">
+                    <img src="assets/images/nettoyage après travaux.jpg" alt="Nettoyage après travaux"
+                        class="gallery-image">
                     <div class="gallery-overlay">
                         <div class="gallery-content">
                             <h4>Après Travaux</h4>
@@ -427,13 +466,175 @@
                 </div>
 
                 <div class="gallery-item" data-category="vitrine">
-                    <img src="assets/images/nettoyage 5.jpg" alt="Nettoyage professionnel" class="gallery-image">
+                    <img src="assets/images/nettoyage locaux professionnels.jpg" alt="Nettoyage professionnel"
+                        class="gallery-image">
                     <div class="gallery-overlay">
                         <div class="gallery-content">
                             <h4>Nettoyage Complet</h4>
                             <p>Prestation complète d'entretien</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Témoignages Section -->
+    <section id="temoignages" class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Ils Nous Font Confiance</h2>
+                <p class="section-subtitle">Découvrez les retours de nos clients satisfaits</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="assets/logos/logo SNTM sans fond.png" alt="Avis client Marie.D"
+                                class="avatar-image">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4 class="testimonial-name">Marie.D</h4>
+                            <p class="testimonial-company">Boutique - Saint-Tropez</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <p class="testimonial-text">
+                        "Service impeccable ! SNTM SAP nettoie notre boutique depuis 3 ans. Toujours à l'heure,
+                        professionnels et très soigneux. Nos vitrines n'ont jamais été aussi propres !"
+                    </p>
+                    <div class="testimonial-date">Il y a 2 mois</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="assets/logos/logo SNTM sans fond.png" alt="Avis client JP.M" class="avatar-image">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4 class="testimonial-name">Jean-Pierre.M</h4>
+                            <p class="testimonial-company">Restaurant - Ramatuelle</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <p class="testimonial-text">
+                        "Équipe réactive et très professionnelle. Ils interviennent chaque matin avant l'ouverture. Le
+                        restaurant est toujours impeccable pour accueillir nos clients. Je recommande vivement !"
+                    </p>
+                    <div class="testimonial-date">Il y a 1 mois</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="assets/logos/logo SNTM sans fond.png" alt="Avis client école "
+                                class="avatar-image">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4 class="testimonial-name">Sophie.L</h4>
+                            <p class="testimonial-company">École - Saint-Tropez</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <p class="testimonial-text">
+                        "Parfait pour notre école ! Ils utilisent des produits écologiques adaptés aux enfants. Les
+                        salles de classe sont toujours propres et saines. Un vrai partenaire de confiance."
+                    </p>
+                    <div class="testimonial-date">Il y a 3 semaines</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="assets/logos/logo SNTM sans fond.png" alt="Avis client agence immobilière"
+                                class="avatar-image">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4 class="testimonial-name">Thomas.B</h4>
+                            <p class="testimonial-company">Agence Immobilière Prestige</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <p class="testimonial-text">
+                        "Excellent rapport qualité-prix. SNTM SAP nettoie nos bureaux et les biens que nous gérons.
+                        Travail soigné et équipe sympathique. Nous ne changerons pas de prestataire !"
+                    </p>
+                    <div class="testimonial-date">Il y a 1 semaine</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="assets/logos/logo SNTM sans fond.png" alt="Avis client hôtel"
+                                class="avatar-image">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4 class="testimonial-name">Isabelle.T</h4>
+                            <p class="testimonial-company">Hôtel - Sainte-Maxime</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <p class="testimonial-text">
+                        "Intervention quotidienne impeccable pour notre hôtel 4 étoiles. Respect des normes d'hygiène
+                        strictes. Nos clients apprécient la propreté irréprochable des lieux. Bravo !"
+                    </p>
+                    <div class="testimonial-date">Il y a 4 jours</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <img src="assets/logos/logo SNTM sans fond.png" alt="Avis client Cabinet médical"
+                                class="avatar-image">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4 class="testimonial-name">Marc.R</h4>
+                            <p class="testimonial-company">Cabinet Médical</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                    </div>
+                    <p class="testimonial-text">
+                        "Pour un cabinet médical, l'hygiène est primordiale. SNTM SAP respecte scrupuleusement le
+                        protocole de désinfection. Fiables, discrets et efficaces. Je recommande à 100% !"
+                    </p>
+                    <div class="testimonial-date">Il y a 2 jours</div>
                 </div>
             </div>
         </div>
@@ -571,7 +772,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <img src="assets/logos/logo SNTM sans fond.png" alt="SNTM SAP Logo" class="footer-logo">
+                    <img src="Logo_SAP_signature_mail.jpg" alt="SNTM SAP Logo" class="footer-logo">
                     <p class="footer-tagline">Votre expert en nettoyage professionnel à Saint-Tropez</p>
                 </div>
 
@@ -581,6 +782,8 @@
                         <li><a href="#accueil">Accueil</a></li>
                         <li><a href="#services">Services</a></li>
                         <li><a href="#apropos">À Propos</a></li>
+                        <li><a href="#zone">Zone d'Intervention</a></li>
+                        <li><a href="#temoignages">Avis Clients</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
@@ -608,6 +811,8 @@
             <div class="footer-bottom">
                 <p>&copy; 2026 SNTM SAP - Tous droits réservés | <a href="#mentions">Mentions Légales</a> | <a
                         href="#rgpd">RGPD</a></p>
+                <p class="footer-credit">Réalisé par <a href="https://sudwebproject.fr" target="_blank"
+                        rel="noopener noreferrer" class="sudweb-link">SudWeb Project</a></p>
             </div>
         </div>
     </footer>
@@ -618,6 +823,15 @@
             <polyline points="18 15 12 9 6 15" />
         </svg>
     </button>
+
+    <!-- Widget Avis Clients Flottant -->
+    <a href="#temoignages" class="reviews-widget" id="reviewsWidget">
+        <div class="reviews-widget-icon">⭐</div>
+        <div class="reviews-widget-content">
+            <div class="reviews-widget-rating">5.0</div>
+            <div class="reviews-widget-text">Avis Clients</div>
+        </div>
+    </a>
 
     <script src="js/script.js"></script>
 </body>

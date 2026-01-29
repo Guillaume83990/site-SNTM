@@ -16,7 +16,16 @@ document.addEventListener('DOMContentLoaded', () => {
     initGalleryLightbox();
     init3DServiceCards();
     initTextReveal();
+    initCityCardsAnimation();
+    initTestimonialsAnimation();
     optimizePerformance();
+
+    // Debug: Log après 2 secondes pour vérifier si tout est chargé
+    setTimeout(() => {
+        console.log('=== Debug Info ===');
+        console.log('Stat numbers:', document.querySelectorAll('.stat-number').length);
+        console.log('Stats container:', document.querySelector('.about-stats-inline'));
+    }, 2000);
 });
 
 // ===================================
@@ -192,6 +201,19 @@ function parallaxScroll() {
     const heroContent = document.querySelector('.hero-content');
     if (heroContent) {
         heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+    }
+
+    // Zone background parallax
+    const zoneBgImage = document.querySelector('.zone-bg-image');
+    if (zoneBgImage) {
+        const zoneSection = document.getElementById('zone');
+        if (zoneSection) {
+            const rect = zoneSection.getBoundingClientRect();
+            const scrollPercent = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+            if (scrollPercent >= 0 && scrollPercent <= 1) {
+                zoneBgImage.style.transform = `scale(1.05) translateY(${scrollPercent * 50 - 25}px)`;
+            }
+        }
     }
 
     // Service cards parallax
@@ -622,17 +644,22 @@ function initScrollAnimations() {
     });
 
     // Observe other animated elements
-    const animatedElements = document.querySelectorAll('.value-item, .stat-card-inline, .contact-item, .cities-list li');
+    const animatedElements = document.querySelectorAll('.value-item, .stat-card-inline, .contact-item');
     animatedElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
     });
 
-    observer.observe(document.querySelector('.about-values'));
-    observer.observe(document.querySelector('.about-stats-inline'));
-    observer.observe(document.querySelector('.contact-details'));
-    observer.observe(document.querySelector('.cities-list'));
+    // Observer les conteneurs seulement s'ils existent
+    const aboutValues = document.querySelector('.about-values');
+    if (aboutValues) observer.observe(aboutValues);
+
+    const aboutStatsInline = document.querySelector('.about-stats-inline');
+    if (aboutStatsInline) observer.observe(aboutStatsInline);
+
+    const contactDetails = document.querySelector('.contact-details');
+    if (contactDetails) observer.observe(contactDetails);
 }
 
 // ===================================
@@ -640,49 +667,105 @@ function initScrollAnimations() {
 // ===================================
 function initStatCounters() {
     const statNumbers = document.querySelectorAll('.stat-number');
+    console.log('Stat numbers found:', statNumbers.length);
+
+    if (statNumbers.length === 0) {
+        console.error('No stat numbers found!');
+        return;
+    }
+
     let hasAnimated = false;
 
+    // Fonction pour vérifier si un élément est visible
+    function isElementInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+
+    // Fonction pour démarrer l'animation
+    function animateCounters() {
+        if (hasAnimated) return;
+        hasAnimated = true;
+
+        console.log('Starting counter animation...');
+
+        statNumbers.forEach((stat, index) => {
+            const target = parseInt(stat.getAttribute('data-target'));
+            console.log(`Counter ${index}: target = ${target}`);
+
+            if (isNaN(target)) {
+                console.error(`Invalid target for counter ${index}`);
+                return;
+            }
+
+            const duration = 2000;
+            const startTime = performance.now();
+
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Easing function
+                const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(easeOutCubic * target);
+
+                stat.textContent = current;
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    stat.textContent = target;
+                    console.log(`Counter ${index} finished at ${target}`);
+                }
+            }
+
+            requestAnimationFrame(updateCounter);
+        });
+    }
+
+    // Observer pour détecter quand la section devient visible
     const observerOptions = {
-        threshold: 0.5
+        threshold: 0.2,
+        rootMargin: '0px 0px -100px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
+            console.log('Observer triggered:', entry.isIntersecting, 'hasAnimated:', hasAnimated);
             if (entry.isIntersecting && !hasAnimated) {
-                hasAnimated = true;
                 animateCounters();
-                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    if (statNumbers.length > 0) {
-        const firstStat = statNumbers[0].closest('.about-stats-inline');
-        if (firstStat) {
-            observer.observe(firstStat);
-        }
+    // Observer le conteneur
+    const statsContainer = document.querySelector('.about-stats-inline');
+    if (statsContainer) {
+        console.log('Stats container found, observing...');
+        observer.observe(statsContainer);
+    } else {
+        console.error('Stats container not found!');
     }
 
-    function animateCounters() {
-        statNumbers.forEach(stat => {
-            const target = parseInt(stat.getAttribute('data-target'));
-            const duration = 2500;
-            const increment = target / (duration / 16);
-            let current = 0;
+    // Fallback: vérifier au scroll
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        if (hasAnimated) return;
 
-            const updateCounter = () => {
-                current += increment;
-                if (current < target) {
-                    stat.textContent = Math.floor(current);
-                    requestAnimationFrame(updateCounter);
-                } else {
-                    stat.textContent = target;
-                }
-            };
-
-            updateCounter();
-        });
-    }
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            const statsContainer = document.querySelector('.about-stats-inline');
+            if (statsContainer && isElementInViewport(statsContainer)) {
+                console.log('Stats container visible via scroll fallback');
+                animateCounters();
+            }
+        }, 100);
+    }, { passive: true });
 }
 
 // ===================================
@@ -891,14 +974,21 @@ function createConfetti() {
 // ===================================
 function initScrollTop() {
     const scrollTopBtn = document.getElementById('scrollTop');
+    const reviewsWidget = document.getElementById('reviewsWidget');
 
     if (!scrollTopBtn) return;
 
     window.addEventListener('scroll', () => {
         if (window.pageYOffset > 500) {
             scrollTopBtn.classList.add('visible');
+            if (reviewsWidget) {
+                reviewsWidget.classList.add('visible');
+            }
         } else {
             scrollTopBtn.classList.remove('visible');
+            if (reviewsWidget) {
+                reviewsWidget.classList.remove('visible');
+            }
         }
     }, { passive: true });
 
@@ -969,6 +1059,114 @@ function optimizePerformance() {
         preload.href = link.href;
         preload.as = link.as;
         document.head.appendChild(preload);
+    });
+}
+
+// ===================================
+// CITY CARDS ANIMATION
+// ===================================
+function initCityCardsAnimation() {
+    const cityCards = document.querySelectorAll('.city-card');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0) scale(1)';
+                }, index * 100);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.2
+    });
+
+    cityCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px) scale(0.9)';
+        card.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        card.style.transitionDelay = `${index * 0.05}s`;
+        observer.observe(card);
+
+        // Add ripple effect on click
+        card.addEventListener('click', function (e) {
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.6);
+                width: 20px;
+                height: 20px;
+                pointer-events: none;
+            `;
+
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+
+            this.appendChild(ripple);
+
+            const animation = ripple.animate([
+                { transform: 'scale(0)', opacity: 1 },
+                { transform: 'scale(4)', opacity: 0 }
+            ], {
+                duration: 600,
+                easing: 'ease-out'
+            });
+
+            animation.onfinish = () => ripple.remove();
+        });
+    });
+}
+
+// ===================================
+// TESTIMONIALS ANIMATION
+// ===================================
+function initTestimonialsAnimation() {
+    const testimonialCards = document.querySelectorAll('.testimonial-card');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.2
+    });
+
+    testimonialCards.forEach(card => {
+        observer.observe(card);
+
+        // Add hover effect that tilts the card slightly
+        card.addEventListener('mousemove', function (e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = (y - centerY) / 30;
+            const rotateY = (centerX - x) / 30;
+
+            this.style.transform = `
+                perspective(1000px) 
+                rotateX(${-rotateX}deg) 
+                rotateY(${rotateY}deg) 
+                translateY(-10px)
+                scale(1)
+            `;
+        });
+
+        card.addEventListener('mouseleave', function () {
+            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(-10px) scale(1)';
+        });
     });
 }
 
